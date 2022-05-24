@@ -2,7 +2,6 @@ package com.hfad.catchat
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.google.android.material.appbar.MaterialToolbar
 import android.view.Menu
 import android.view.MenuItem
 import androidx.navigation.findNavController
@@ -10,7 +9,11 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.ui.NavigationUI
+import com.google.android.material.navigation.NavigationView
+import com.google.android.material.appbar.MaterialToolbar
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,13 +24,16 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment= supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
+        val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)     //для кнопки в тулбаре
         val builder = AppBarConfiguration.Builder(navController.graph)
+        builder.setOpenableLayout(drawer)                               //для кнопки в тулбаре
         val appBarConfiguration = builder.build()
         toolbar.setupWithNavController(navController,appBarConfiguration)
-        // bottom navigation
-        val bottomNavView = findViewById<BottomNavigationView>(R.id.bottom_nav)
-        bottomNavView.setupWithNavController(navController)
+        val navView = findViewById<NavigationView>(R.id.nav_view)
+        NavigationUI.setupWithNavController(navView, navController)
     }
+
+// весь код ниже нужен только для реализации тулбара
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_toolbar,menu)
